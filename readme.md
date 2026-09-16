@@ -1,167 +1,338 @@
-```markdown
-# AI Ticket Assistant
 
-An AI-powered ticket management system that automatically categorizes, prioritizes, and assigns support tickets to the most appropriate moderators based on their skills.
+# 🎫 AI Ticket Assistant
 
-## 🚀 Features
+<p align="center">
+  <strong>AI-powered support ticket management system</strong>
+</p>
 
-### 🤖 AI-Powered Ticket Processing
+<p align="center">
+  Automatically analyze, prioritize, categorize, and assign support tickets to moderators based on their skills.
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Node.js-Backend-green?style=for-the-badge&logo=node.js" alt="Node.js"/>
+  <img src="https://img.shields.io/badge/Express.js-API-black?style=for-the-badge&logo=express" alt="Express.js"/>
+  <img src="https://img.shields.io/badge/MongoDB-Database-green?style=for-the-badge&logo=mongodb" alt="MongoDB"/>
+  <img src="https://img.shields.io/badge/Google%20Gemini-AI-blue?style=for-the-badge&logo=google" alt="Gemini"/>
+  <img src="https://img.shields.io/badge/Inngest-Background%20Jobs-purple?style=for-the-badge" alt="Inngest"/>
+</p>
+
+---
+
+## 📌 About The Project
+
+**AI Ticket Assistant** is a smart ticket management system designed to automate the process of handling customer support requests.
+
+When a user creates a ticket, the system processes the ticket using **Google Gemini AI** to identify important information such as:
+
+- 🎯 Ticket type
+- ⚡ Priority level
+- 🧠 Required skills
+- 📝 Helpful notes for the moderator
+
+Based on the skills identified by the AI, the system searches for suitable moderators and assigns the ticket accordingly.
+
+The ticket-processing workflow is handled asynchronously using **Inngest**.
+
+---
+
+## ✨ Features
+
+### 🤖 AI-Powered Ticket Analysis
 
 - Automatic ticket categorization
-- Smart priority assignment
+- Automatic priority detection
+- Required skill identification
+- AI-generated moderator notes
+- Google Gemini API integration
+
+### 👨‍💻 Intelligent Moderator Assignment
+
 - Skill-based moderator matching
-- AI-generated helpful notes for moderators
+- Automatic ticket routing
+- Matching moderators based on required skills
+- Admin fallback when no suitable moderator is available
 
-### 👨‍💻 Smart Moderator Assignment
+### 🔐 Authentication & Authorization
 
-- Automatic matching of tickets to moderators based on skills
-- Fallback to admin assignment if no matching moderator is found
-- Skill-based routing system
+- JWT-based authentication
+- Secure password hashing using bcrypt
+- Role-based access control
+- Supports:
+  - 👤 User
+  - 🛠️ Moderator
+  - 👑 Admin
 
 ### 👥 User Management
 
-- Role-based access control (User, Moderator, Admin)
-- Skill management for moderators
-- User authentication with JWT
+- User registration
+- User login
+- Role management
+- Moderator skill management
+- Admin-only user management
 
-### ⚡ Background Processing
+### ⚡ Event-Driven Processing
 
-- Event-driven architecture using Inngest
+- Inngest event-based architecture
 - Asynchronous ticket processing
+- Background AI processing
+
+---
+
+## 🔄 How It Works
+
+```text
+                    👤 USER
+                       │
+                       ▼
+                ┌──────────────┐
+                │ Create Ticket│
+                └──────┬───────┘
+                       │
+                       ▼
+                ┌──────────────┐
+                │   MongoDB    │
+                └──────┬───────┘
+                       │
+                       ▼
+                ┌──────────────┐
+                │    Inngest   │
+                └──────┬───────┘
+                       │
+                       ▼
+                ┌──────────────┐
+                │ Google Gemini│
+                │      AI      │
+                └──────┬───────┘
+                       │
+             ┌─────────┼─────────┐
+             ▼         ▼         ▼
+          Category  Priority  Skills
+             │         │         │
+             └─────────┼─────────┘
+                       │
+                       ▼
+              ┌─────────────────┐
+              │    Moderator    │
+              │     Matching    │
+              └────────┬────────┘
+                       │
+                ┌──────┴──────┐
+                ▼             ▼
+          👨‍💻 Moderator    👑 Admin
+             Match         Fallback
+```
+
+---
+
+## 🧠 AI Processing
+
+When a ticket is created, the AI analyzes its title and description.
+
+### Example
+
+**Input**
+
+```text
+Title:
+Database Connection Issue
+
+Description:
+Experiencing intermittent database connection timeouts.
+```
+
+**AI Analysis**
+
+```text
+Ticket Type: Technical
+Priority: High
+
+Required Skills:
+- Database
+- Backend
+
+Helpful Notes:
+Investigate database connectivity and timeout configuration.
+```
+
+The generated information is then used for moderator assignment.
+
+---
 
 ## 🛠️ Tech Stack
 
-- **Backend:** Node.js with Express
-- **Database:** MongoDB
-- **Authentication:** JWT
-- **Background Jobs:** Inngest
-- **AI Integration:** Google Gemini API
-- **Development:** Nodemon
+| Technology | Purpose |
+|------------|---------|
+| **Node.js** | Backend runtime |
+| **Express.js** | REST API |
+| **MongoDB** | Database |
+| **Mongoose** | MongoDB ODM |
+| **JWT** | Authentication |
+| **bcrypt** | Password hashing |
+| **Inngest** | Background processing |
+| **Google Gemini** | AI ticket analysis |
+| **Nodemon** | Development |
 
-## 📋 Prerequisites
+---
 
-- Node.js (v14 or higher)
+## 🏗️ Project Architecture
+
+```text
+Client
+  │
+  ▼
+Express.js API
+  │
+  ├── Authentication
+  │
+  ├── User Management
+  │
+  └── Ticket Management
+           │
+           ▼
+        MongoDB
+           │
+           ▼
+        Inngest
+           │
+           ▼
+      Gemini AI
+           │
+           ▼
+  Ticket Analysis
+           │
+           ▼
+Moderator Matching
+           │
+           ▼
+   Ticket Assignment
+```
+
+---
+
+## 📋 API Endpoints
+
+### 🔐 Authentication
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/auth/signup` | Register a new user |
+| `POST` | `/api/auth/login` | Login and receive JWT token |
+
+### 🎫 Tickets
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/tickets` | Create a new ticket |
+| `GET` | `/api/tickets` | Get tickets for logged-in user |
+| `GET` | `/api/tickets/:id` | Get ticket details |
+
+### 👑 Admin
+
+| Method | Endpoint | Access |
+|--------|----------|--------|
+| `GET` | `/api/auth/users` | Admin |
+| `POST` | `/api/auth/update-user` | Admin |
+
+---
+
+## 📁 Project Structure
+
+```text
+ai-ticket-assistant/
+│
+├── src/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── middleware/
+│   ├── services/
+│   └── ...
+│
+├── .env
+├── .gitignore
+├── package.json
+├── package-lock.json
+└── README.md
+```
+
+---
+
+## ⚙️ Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/)
 - MongoDB
-- Google Gemini API key
+- Git
+- Google Gemini API Key
 
-## ⚙️ Installation
+---
 
-### 1. Clone the Repository
+### 1️⃣ Clone the Repository
 
 ```bash
 git clone <repository-url>
 cd ai-ticket-assistant
 ```
 
-### 2. Install Dependencies
+### 2️⃣ Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 3. Environment Setup
+### 3️⃣ Configure Environment Variables
 
-Create a `.env` file in the root directory:
+Create a `.env` file in the root directory.
 
 ```env
-# MongoDB
 MONGO_URI=your_mongodb_uri
 
-# JWT
 JWT_SECRET=your_jwt_secret
 
-# AI (Gemini)
 GEMINI_API_KEY=your_gemini_api_key
 
-# Application
 APP_URL=http://localhost:3000
 ```
 
-## 🚀 Running the Application
+---
 
-### Start the Main Server
+## ▶️ Run the Application
+
+### Start the Backend
 
 ```bash
 npm run dev
 ```
 
-### Start the Inngest Development Server
+The backend will run on:
 
-Open another terminal and run:
+```text
+http://localhost:3000
+```
+
+### Start Inngest
+
+Open another terminal:
 
 ```bash
 npm run inngest-dev
 ```
 
-The Inngest development server will be available at:
+The Inngest development dashboard will be available at:
 
 ```text
 http://localhost:8288
 ```
 
-## 📝 API Endpoints
+---
 
-### Authentication
+## 🧪 Test Ticket Creation
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/signup` | Register a new user |
-| POST | `/api/auth/login` | Login and get JWT token |
-
-### Tickets
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/tickets` | Create a new ticket |
-| GET | `/api/tickets` | Get all tickets for logged-in user |
-| GET | `/api/tickets/:id` | Get ticket details |
-
-### Admin
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/auth/users` | Get all users (Admin only) |
-| POST | `/api/auth/update-user` | Update user role and skills (Admin only) |
-
-## 🔄 Ticket Processing Flow
-
-### 1. Ticket Creation
-
-- User submits a ticket with a title and description
-- System creates the initial ticket record
-
-### 2. AI Processing
-
-- Inngest triggers the `on-ticket-created` event
-- AI analyzes the ticket content
-- Generates:
-  - Required skills
-  - Priority level
-  - Helpful notes
-  - Ticket type
-
-### 3. Moderator Assignment
-
-- System searches for moderators with matching skills
-- Uses skill-based matching
-- Falls back to admin if no matching moderator is found
-- Updates the ticket with the assignment
-
-## 🧪 Testing
-
-### Start the Inngest Development Server
-
-```bash
-npm run inngest-dev
-```
-
-The Inngest development server will be available at:
-
-```text
-http://localhost:8288
-```
-
-### Test Ticket Creation
+After logging in and obtaining a JWT token:
 
 ```bash
 curl -X POST http://localhost:3000/api/tickets \
@@ -173,11 +344,38 @@ curl -X POST http://localhost:3000/api/tickets \
 }'
 ```
 
-## 🔍 Troubleshooting
+---
 
-### Port Conflicts
+## 🔒 Environment Variables & Security
 
-If you see an "address already in use" error:
+Never commit sensitive credentials to GitHub.
+
+Make sure your `.gitignore` contains:
+
+```text
+node_modules/
+.env
+```
+
+Your API keys, database credentials, and JWT secret should always remain private.
+
+---
+
+## 🐛 Troubleshooting
+
+### Port 8288 Already in Use
+
+#### Windows PowerShell
+
+```powershell
+netstat -ano | findstr :8288
+```
+
+Then terminate the process:
+
+```powershell
+taskkill /PID <PID> /F
+```
 
 #### Linux / macOS
 
@@ -186,50 +384,51 @@ lsof -i :8288
 kill -9 <PID>
 ```
 
-#### Windows PowerShell
+### Gemini API Issues
 
-```powershell
-netstat -ano | findstr :8288
-taskkill /PID <PID> /F
-```
+Check:
 
-### AI Processing Errors
+- `GEMINI_API_KEY` is correctly configured
+- Your Gemini API quota
+- API request format
+- Backend console logs
 
-- Verify `GEMINI_API_KEY` in `.env`
-- Check API quota and limits
-- Validate request format
-- Check server logs for errors
+### MongoDB Issues
 
-### MongoDB Connection Issues
+Check:
 
-- Verify MongoDB is running
-- Check the `MONGO_URI`
-- Make sure the database is accessible
+- MongoDB is running
+- `MONGO_URI` is correct
+- Database connection permissions
+
+---
 
 ## 📦 Dependencies
 
-- `@inngest/agent-kit`: `^0.7.3`
-- `bcrypt`: `^5.1.1`
-- `cors`: `^2.8.5`
-- `dotenv`: `^16.5.0`
-- `express`: `^5.1.0`
-- `inngest`: `^3.35.0`
-- `jsonwebtoken`: `^9.0.2`
-- `mongoose`: `^8.13.2`
-- `nodemailer`: `^6.10.1`
-
-## 🔐 Security
-
-Never commit sensitive credentials to Git.
-
-Add the following to `.gitignore`:
-
 ```text
-.env
-node_modules/
+@inngest/agent-kit
+bcrypt
+cors
+dotenv
+express
+inngest
+jsonwebtoken
+mongoose
+nodemailer
 ```
 
-## 📄 License
+---
 
-This project is intended for educational and portfolio purposes.
-```
+## 🔮 Future Improvements
+
+Planned improvements may include:
+
+- 📊 Ticket analytics
+- 🔎 Advanced ticket search and filtering
+- 📈 Moderator workload tracking
+- ⚡ Real-time ticket updates
+- 🔔 Real-time notifications
+- 📝 Ticket history and activity tracking
+
+---
+
